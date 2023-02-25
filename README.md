@@ -5,6 +5,8 @@ An AutoHotkey v2 script to type the contents of the clipboard rather than paste 
 
 *ClipboardTextTyper* is useful for creating video scripts or demo's. It allows pre-typed code or text to be copied and create the effect of typing the text, rather than pasting it.
 
+![Demo](./docs/Demo.gif)
+
 ## Launching 
 
 You can either double-click on the script once you have AutoHotkey installed or launch in a script or startup with.
