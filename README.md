@@ -10,7 +10,7 @@ An AutoHotkey v2 script to type the contents of the clipboard rather than paste 
 You can either double-click on the script once you have AutoHotkey installed or launch in a script or startup with.
 
 ```
-AutoHotkey.exe CipBoardTextTyper.ahk <subDocDelimiter> <showMessages> <playSounds>`
+AutoHotkey.exe CipBoardTextTyper.ahk <subDocDelimiter> <showMessages> <playSounds>
 ```
 |Parameter|Description|Default|
 |---------|-----------|-------|
