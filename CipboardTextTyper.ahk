@@ -7,7 +7,7 @@
     global script_exitingFlag:= False
     global script_speed:= 1.0
     global script_subDocDelimiter:= "¬"
-    global script_subDocs:= []
+    global script_subDocs:= [""]
     global script_pos:= 1
     global script_minKeyDelay:= 8
     global script_maxKeyDelay:= 96
@@ -98,6 +98,7 @@
 
     ReadClipboardHandler(clipType)
     {
+        ; Only process if text on clipboard
         if clipType = 1
         {
             global script_subDocDelimiter
