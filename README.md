@@ -42,9 +42,9 @@ Once the script has been launched it can be controlled with the following keys:-
 |*Ctrl+Shift+RightArrow*|Increases the typings speed|
 |*Ctrl+Shift+M*|Toggles tooltip messages on and off|
 
-## Sub Documents
+## Sub-documents
 
-The text that you copy can contain a special delimeter to create multiple sub-documents to tupe. When the delimeter is reached *ClipboardTextTyper* will pause typing and wait for the next `Ctrl+Shift+V` keypress before typing the next sub-document.
+The text that you copy can contain a special delimeter to create multiple sub-documents to type. When the delimeter is reached *ClipboardTextTyper* will pause typing and wait for the next `Ctrl+Shift+V` keypress before typing the next sub-document.
 
 ```
 This will type on the first <Ctrl+Shift+V> press
