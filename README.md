@@ -44,4 +44,4 @@ Once the script has been launched it can be controlled with the following keys:-
 
 ## Requirements
 
-This script requires [AutoHotkey](https://www.autohotkey.com/) version 2. Please refer to the [online documentation](https://www.autohotkey.com/docs/) fof more info. *AutoHotkey* currently only runs on Windows.
+This script requires [AutoHotkey](https://www.autohotkey.com/) version 2. Please refer to the [online documentation](https://www.autohotkey.com/docs/) for more info. *AutoHotkey* currently only runs on Windows.
