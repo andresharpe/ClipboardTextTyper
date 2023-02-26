@@ -53,16 +53,9 @@
     ReadClipboardHandler(1)
     OnClipboardChange ReadClipboardHandler
 
-    Loop {
-
-        if script_exitingFlag
-        {
-            break
-        }
-        else
-        {
-            Sleep(10)
-        }
+    while not script_exitingFlag
+    {
+        Sleep(10)
     }
 
     ; De-activate in-script-hot-keys
@@ -215,13 +208,8 @@
             return
         }
 
-        Loop 
+        while not script_exitingFlag
         {
-            if script_exitingFlag
-            {
-                break
-            }
-
             char := SubStr(textToType, strpos, 1)
 
             switch char
@@ -253,6 +241,5 @@
                 break
             }
         }
-
     }
 }
