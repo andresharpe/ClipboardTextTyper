@@ -33,14 +33,28 @@ Once the script has been launched it can be controlled with the following keys:-
 
 |Keys|Description|
 |----|-----------|
-|*Ctrl-Shift-T*|Activates ClipboardTextTyper|
+|*Ctrl+Shift+T*|Activates ClipboardTextTyper|
 |*Escape*|De-activates ClipBoardTextTyper|
-|*Ctrl-Shift-Enter*|Types the next sub-document|
-|*Ctrl-Shift-UpArrow*|Moves backwards to the previous sub-document in the clipboard|
-|*Ctrl-Shift-DownArrow*|Moves forwards to the next sub-document in the clipboard|
-|*Ctrl-Shift-LeftArrow*|Decreases the typings speed|
-|*Ctrl-Shift-RightArrow*|Increases the typings speed|
-|*Ctrl-Shift-M*|Toggles tooltip messages on and off|
+|*Ctrl+Shift+V*|Types the next sub-document|
+|*Ctrl+Shift+UpArrow*|Moves backwards to the previous sub-document in the clipboard|
+|*Ctrl+Shift+DownArrow*|Moves forwards to the next sub-document in the clipboard|
+|*Ctrl+Shift+LeftArrow*|Decreases the typings speed|
+|*Ctrl+Shift+RightArrow*|Increases the typings speed|
+|*Ctrl+Shift+M*|Toggles tooltip messages on and off|
+
+## Sub Documents
+
+The text that you copy can contain a special delimeter to create multiple sub-documents to tupe. When the delimeter is reached *ClipboardTextTyper* will pause typing and wait for the next `Ctrl+Shift+V` keypress before typing the next sub-document.
+
+```
+This will type on the first <Ctrl+Shift+V> press
+¬
+This will type on the second <Ctrl+Shift+V> press
+¬
+This will type on the third <Ctrl+Shift+V> press
+```
+
+In the above example the default delimeter `¬` is used.
 
 ## Requirements
 

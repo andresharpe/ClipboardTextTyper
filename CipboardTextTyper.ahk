@@ -33,7 +33,7 @@
     ; show help
     msg:= "Started"
     msg:= msg . "`n" . "<Esc> to quit"
-    msg:= msg . "`n" . "<Ctrl+Shift+Enter> to type next sub-document"
+    msg:= msg . "`n" . "<Ctrl+Shift+V> to type next sub-document"
     msg:= msg . "`n" . "<Ctrl+Shift+Up> to move back to previous sub-document"
     msg:= msg . "`n" . "<Ctrl+Shift+Down> to move forward to next sub-document"
     msg:= msg . "`n" . "<Ctrl+Shift+Left> to reduce typing speed"
@@ -45,7 +45,7 @@
     Hotkey "^+Down", NextDocHandler, "On"
     Hotkey "^+Left", ReduceSpeedHandler, "On"
     Hotkey "^+Right", IncreaseSpeedHandler, "On"
-    Hotkey "^+Enter", TypeDocHandler, "On"
+    Hotkey "^+V", TypeDocHandler, "On"
     Hotkey "^+M", ToggleMessagesHandler, "On"
 
     ; Process the clipboard
@@ -69,7 +69,7 @@
     Hotkey  "^+Down", "Off", "Off"
     Hotkey  "^+Left", "Off", "Off"
     Hotkey  "^+Right", "Off", "Off"
-    Hotkey  "^+Enter", "Off", "Off"
+    Hotkey  "^+V", "Off", "Off"
     Hotkey  "^+M", "Off", "Off"
 
     PlayQuitSound()
