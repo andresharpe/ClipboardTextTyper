@@ -34,7 +34,7 @@ Once the script has been launched it can be controlled with the following keys:-
 |Keys|Description|
 |----|-----------|
 |*Ctrl+Shift+T*|Activates ClipboardTextTyper|
-|*Escape*|De-activates ClipBoardTextTyper|
+|*Ctrl+Shift+Escape*|De-activates ClipBoardTextTyper|
 |*Ctrl+Shift+V*|Types the next sub-document|
 |*Ctrl+Shift+UpArrow*|Moves backwards to the previous sub-document in the clipboard|
 |*Ctrl+Shift+DownArrow*|Moves forwards to the next sub-document in the clipboard|

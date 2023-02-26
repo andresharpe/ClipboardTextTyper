@@ -32,7 +32,7 @@
 
     ; show help
     msg:= "Started"
-    msg:= msg . "`n" . "<Esc> to quit"
+    msg:= msg . "`n" . "<Ctrl+Shift+Esc> to quit"
     msg:= msg . "`n" . "<Ctrl+Shift+V> to type next sub-document"
     msg:= msg . "`n" . "<Ctrl+Shift+Up> to move back to previous sub-document"
     msg:= msg . "`n" . "<Ctrl+Shift+Down> to move forward to next sub-document"
@@ -41,6 +41,7 @@
     ShowMessage(msg,5)
 
     ; Activate in-script hot-keys
+    Hotkey "^+Escape", ExitHandler, "On"
     Hotkey "^+Up", PreviousDocHandler, "On"
     Hotkey "^+Down", NextDocHandler, "On"
     Hotkey "^+Left", ReduceSpeedHandler, "On"
@@ -54,7 +55,7 @@
 
     Loop {
 
-        if GetKeyState("Escape","P") or script_exitingFlag
+        if script_exitingFlag
         {
             break
         }
@@ -65,6 +66,7 @@
     }
 
     ; De-activate in-script-hot-keys
+    Hotkey  "^+Escape", "Off", "Off"
     Hotkey  "^+Up", "Off", "Off"
     Hotkey  "^+Down", "Off", "Off"
     Hotkey  "^+Left", "Off", "Off"
@@ -80,6 +82,11 @@
 
     ;---[End of main script]---------------------------------------------------------------
 
+    ExitHandler(key)
+    {
+        global script_exitingFlag:= true
+    }
+    
     ProcessScriptParameters()
     {
         if A_Args.Length > 0
@@ -210,9 +217,8 @@
 
         Loop 
         {
-            if GetKeyState("Esc","P")
+            if script_exitingFlag
             {
-                global script_exitingFlag:= true
                 break
             }
 
