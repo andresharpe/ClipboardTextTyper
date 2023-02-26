@@ -58,7 +58,7 @@ In the above example the default delimeter `¬` is used.
 
 You can make full use of the AutoHotkey automation features and invoke control key sequences, mouse clicks and navigational keys. 
 
-Start the sub-document with `{macro}` immediately after the delimeter. This example will type the first two lines after two `Ctrl+Shift+V` presses and will backspace 116 times and press `Ctrl+S` od *^s* in AutoHotkey lingo).
+Start the sub-document with `{macro}` immediately after the delimeter. This example will type the first two lines after two `Ctrl+Shift+V` presses and will backspace 116 times and press `Ctrl+S` (*^s* in AutoHotkey lingo).
 
 ```
 This sentence will be typed when the first Ctr+Shift+V is pressed
