@@ -230,18 +230,21 @@
                 ; gives a better "tab"-esque effect
                 case " ":
                     spaces:= spaces . " "
-
+                
+                ; new line
                 case "`n":
                     Sleep(Random(script_minEnterDelay/script_speed,script_maxEnterDelay/script_speed))
                     SendInput("{Enter}")
                     spaces:= ""
 
+                ; carriage return 
                 case "`r":
                     ;skip it
 
+                ; everything else
                 default:
-                    SendText(spaces . char)
                     Sleep(Random(script_minKeyDelay/script_speed, script_maxKeyDelay/script_speed))
+                    SendText(spaces . char)
                     spaces:= ""
             }
 
