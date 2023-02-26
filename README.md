@@ -48,13 +48,28 @@ The text that you copy can contain a special delimeter to create multiple sub-do
 
 ```
 This will type on the first <Ctrl+Shift+V> press
-¬
-This will type on the second <Ctrl+Shift+V> press
-¬
-This will type on the third <Ctrl+Shift+V> press
+¬This will type on the second <Ctrl+Shift+V> press
+¬This will type on the third <Ctrl+Shift+V> press
 ```
 
 In the above example the default delimeter `¬` is used.
+
+## Macros
+
+You can make full use of the AutoHotkey automation features and invoke control key sequences, mouse clicks and navigational keys. 
+
+Start the sub-document with `{macro}` immediately after the delimeter. This example will type the first two lines after two `Ctrl+Shift+V` presses and will backspace 18 times and press `Ctrl+S` (^s in AutoHotkey lingo).
+
+```
+This is a sentence
+
+¬This is another
+
+¬{macro}{BS 18}^s
+```
+
+
+For a full list of supported keys and features refer to the [AutoHotkey Keynames reference](https://www.autohotkey.com/docs/v2/lib/Send.htm#keynames).
 
 ## Requirements
 

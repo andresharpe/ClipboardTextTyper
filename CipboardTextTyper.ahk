@@ -201,6 +201,13 @@
         strpos:= 1
         spaces := ""
 
+        isMacro:= StrCompare(SubStr(textToType, 1, 7),"{macro}","Off") = 0
+        if isMacro
+        {
+            SendInput(SubStr(textToType, 8))
+            return
+        }
+
         Loop 
         {
             if GetKeyState("Esc","P")
