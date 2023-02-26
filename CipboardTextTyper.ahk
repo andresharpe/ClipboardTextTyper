@@ -219,15 +219,15 @@
                 case " ":
                     spaces:= spaces . " "
                 
+                ; carriage return 
+                case "`r":
+                    ;ignore it
+
                 ; new line
                 case "`n":
                     Sleep(Random(script_minEnterDelay/script_speed,script_maxEnterDelay/script_speed))
                     SendInput("{Enter}")
                     spaces:= ""
-
-                ; carriage return 
-                case "`r":
-                    ;skip it
 
                 ; everything else
                 default:
