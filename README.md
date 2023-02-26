@@ -58,7 +58,7 @@ In the above example the default delimeter `¬` is used.
 
 You can make full use of the AutoHotkey automation features and invoke control key sequences, mouse clicks and navigational keys. 
 
-Start the sub-document with `{macro}` immediately after the delimeter. This example will type the first two lines after two `Ctrl+Shift+V` presses and will backspace 18 times and press `Ctrl+S` (^s in AutoHotkey lingo).
+Start the sub-document with `{macro}` immediately after the delimeter. This example will type the first two lines after two `Ctrl+Shift+V` presses and will backspace 18 times and press `Ctrl+S` od *^s* in AutoHotkey lingo).
 
 ```
 This is a sentence
@@ -68,8 +68,7 @@ This is a sentence
 ¬{macro}{BS 18}^s
 ```
 
-
-For a full list of supported keys and features refer to the [AutoHotkey Keynames reference](https://www.autohotkey.com/docs/v2/lib/Send.htm#keynames).
+For a full list of supported keynames and features refer to the [AutoHotkey Keynames reference](https://www.autohotkey.com/docs/v2/lib/Send.htm#keynames).
 
 ## Requirements
 
