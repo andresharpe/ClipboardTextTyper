@@ -11,8 +11,8 @@
     global script_pos:= 1
     global script_minKeyDelay:= 8
     global script_maxKeyDelay:= 96
-    global script_minSpaceDelay:= 128 
-    global script_maxSpaceDelay:= 256 
+    global script_minEnterDelay:= 128 
+    global script_maxEnterDelay:= 256 
     global script_playSounds:= true
     global script_showMessages:= true
 
@@ -28,7 +28,7 @@
     ; 
     ProcessScriptParameters()
     
-    PlayStartSound()
+    PlayStartingSound()
 
     ; show help
     msg:= "Started"
@@ -49,7 +49,7 @@
     Hotkey "^+V", TypeDocHandler, "On"
     Hotkey "^+M", ToggleMessagesHandler, "On"
 
-    ; Process the clipboard
+    ; Read the clipboard and set an event up in case it changes
     ReadClipboardHandler(1)
     OnClipboardChange ReadClipboardHandler
 
@@ -74,7 +74,7 @@
     Hotkey  "^+V", "Off", "Off"
     Hotkey  "^+M", "Off", "Off"
 
-    PlayQuitSound()
+    PlayExitingSound()
 
     ShowMessage("Exited.",1)
 
@@ -130,7 +130,7 @@
         return
     }
 
-    PlayStartSound()
+    PlayStartingSound()
     {
         global script_playSounds
         if script_playSounds
@@ -139,7 +139,7 @@
         }
     }
 
-    PlayQuitSound()
+    PlayExitingSound()
     {
         global script_playSounds
         if script_playSounds
@@ -187,7 +187,7 @@
         global script_pos
 
         TypeText(script_subDocs[script_pos])
-        global script_pos:= Min(script_subDocs.Length,script_pos+1)
+        script_pos:= Min(script_subDocs.Length,script_pos+1)
     }
 
     ToggleMessagesHandler(key)
@@ -232,7 +232,7 @@
                     spaces:= spaces . " "
 
                 case "`n":
-                    Sleep(Random(script_minSpaceDelay/script_speed,script_maxSpaceDelay/script_speed))
+                    Sleep(Random(script_minEnterDelay/script_speed,script_maxEnterDelay/script_speed))
                     SendInput("{Enter}")
                     spaces:= ""
 
