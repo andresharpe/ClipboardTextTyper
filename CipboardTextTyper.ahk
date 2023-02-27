@@ -4,7 +4,8 @@
 ; Define the hotkey to trigger the script <Ctrl+Shift+T>
 ^+t::{
 
-    global script_exitingFlag:= False
+    global script_exitingFlag:= false
+    global script_typingFlag:= false
     global script_speed:= 1.0
     global script_subDocDelimiter:= "¬"
     global script_subDocs:= [""]
@@ -42,6 +43,8 @@
     msg.= "`n" . "<Ctrl+Shift+Down> to move forward to next sub-document"
     msg.= "`n" . "<Ctrl+Shift+Left> to reduce typing speed"
     msg.= "`n" . "<Ctrl+Shift+Right> to increase typing speed"
+    msg.= "`n" . "<Ctrl+Shift+M> to toggle messages on/off"
+    msg.= "`n" . "<Ctrl+Shift+S> to toggle sounds on/off"
     ShowMessage(msg,5)
 
     ; Activate in-script hot-keys
@@ -52,6 +55,7 @@
     Hotkey "^+Right", IncreaseSpeedHandler, "On"
     Hotkey "^+V", TypeDocHandler, "On"
     Hotkey "^+M", ToggleMessagesHandler, "On"
+    Hotkey "^+S", ToggleSoundHandler, "On"
 
     while not script_exitingFlag
     {
@@ -66,6 +70,7 @@
     Hotkey  "^+Right", "Off", "Off"
     Hotkey  "^+V", "Off", "Off"
     Hotkey  "^+M", "Off", "Off"
+    Hotkey  "^+S", "Off", "Off"
 
     PlayExitingSound()
 
@@ -167,6 +172,23 @@
         return
     }
 
+    ToggleSoundHandler(key)
+    {
+        global script_playSounds:= !script_playSounds
+        if script_typingFlag
+        {
+            if script_playSounds 
+            {
+                SoundLoop(A_ScriptDir . "\ClipboardTextTyper-start.wav")
+            }
+            else  
+            {
+                SoundLoop("")
+            }
+        } 
+        ShowMessage("Sound: " . script_playSounds ? "ON": "OFF",1)
+    }
+
     PlayStartingSound()
     {
         global script_playSounds
@@ -263,7 +285,9 @@
     TypeText(textToType)
     {
 
+        global script_typingFlag
         global script_speed
+        global script_playSounds
         global script_minKeyDelay
         global script_maxKeyDelay
         global script_spaceMinKeyDelay
@@ -272,6 +296,10 @@
         len:= StrLen(textToType)
         strpos:= 1
         spaces := ""
+
+        script_typingFlag:= true
+
+        SoundLoop(A_ScriptDir . "\ClipboardTextTyper-start.wav")
 
         while not script_exitingFlag
         {
@@ -306,5 +334,20 @@
                 break
             }
         }
+
+        script_typingFlag:= false
+        SoundLoop("")
+
+    }
+
+    SoundLoop(File := "") {
+        ; http://msdn.microsoft.com/en-us/library/dd743680(v=vs.85).aspx
+        ; SND_ASYNC       0x00000001  /* play asynchronously */
+        ; SND_NODEFAULT   0x00000002  /* silence (!default) if sound not found */
+        ; SND_LOOP        0x00000008  /* loop the sound until next sndPlaySound */
+        ; SND_NOWAIT      0x00002000  /* don't wait if the driver is busy */
+        ; SND_FILENAME    0x00020000  /* name is file name */
+        ; --------------- 0x0002200B
+        return DllCall("Winmm.dll\PlaySoundW", 'Ptr', File = "" ? 0 : StrPtr(File), 'Ptr', 0, 'UInt', 0x0002200B)
     }
 }

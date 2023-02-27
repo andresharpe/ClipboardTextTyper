@@ -41,6 +41,7 @@ Once the script has been launched it can be controlled with the following keys:-
 |*Ctrl+Shift+LeftArrow*|Decreases the typings speed|
 |*Ctrl+Shift+RightArrow*|Increases the typings speed|
 |*Ctrl+Shift+M*|Toggles tooltip messages on and off|
+|*Ctrl+Shift+S*|Toggles sound effects on and off|
 
 ## Sub-documents
 
