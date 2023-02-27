@@ -17,15 +17,15 @@ AutoHotkey.exe CipBoardTextTyper.ahk <subDocDelimiter> <showMessages> <playSound
 |Parameter|Description|Default|
 |---------|-----------|-------|
 |*subDocDelimiter*|The character that seperates sub-documents in the clipboard|¬|
-|*showMessages*|Whether to show or surpress script messages|true| 
-|*playSounds*|Whether to play startup and exit sounds|true|
+|*showMessages*|Whether to show or surpress script messages|On| 
+|*playSounds*|Whether to play startup and exit sounds|On|
 
 ## Example
 
 Run the script with the delimeter set to `#` and suppress script messages. Sounds will be played. From Powershell:
 
 ``` pwsh
-& 'C:\Program Files\AutoHotkey\v2\AutoHotkey.exe' .\CipboardTextTyper.ahk ¬ false true
+& 'C:\Program Files\AutoHotkey\v2\AutoHotkey.exe' .\CipboardTextTyper.ahk ¬ Off On
 ``` 
 ## Usage
 
@@ -71,6 +71,19 @@ It will be deleted by the macro on the next line.
 ```
 
 For a full list of supported keynames and features refer to the [AutoHotkey Keynames reference](https://www.autohotkey.com/docs/v2/lib/Send.htm#keynames).
+
+## Specifying options on the Clipboard 
+
+You can also specify options for *ClipboardTextTyper* in the first line of the text being copied. Options can be specified as follows and should appear on a line of its own at the top of the text being copied. 
+
+```
+{options delimeter=|,messages=off,sounds=on}
+This is sub-document one|
+This is sub-document two|
+This is sub-document three
+```
+
+In the example above the delimeter is set to `|`, tooltip messages are supressed and start and end sounds will be played. Typing will start from the first character on line two.
 
 ## Requirements
 

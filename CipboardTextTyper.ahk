@@ -19,25 +19,29 @@
     ; Usage: AutoHotkey.exe CipBoardTextTyper.ahk <subDocDelimiter> <showMessages> <playSounds>
     ;
     ; subDocDelimiter   : The character that seperates sub-documents in the clipboard. Default '¬'
-    ; showMessages      : Whether to show or surpress script messages. Default 'true' 
-    ; playSounds        : Whether to play startup and exit sounds. Default 'true'
+    ; showMessages      : Whether to show or surpress script messages. Default 'On' 
+    ; playSounds        : Whether to play startup and exit sounds. Default 'On'
     ;
     ; Example: Sets the delimter to '#' and suppresses script messages
     ;
-    ;   AutoHotkey.exe CipBoardTextTyper.ahk # false true
+    ;   AutoHotkey.exe CipBoardTextTyper.ahk # off on
     ; 
     ProcessScriptParameters()
-    
-    PlayStartingSound()
 
+    ; Read the clipboard and set an event up in case it changes
+    ReadClipboardHandler(1)
+    OnClipboardChange ReadClipboardHandler
+
+    PlayStartingSound()
+    
     ; show help
     msg:= "Started"
-    msg:= msg . "`n" . "<Ctrl+Shift+Esc> to quit"
-    msg:= msg . "`n" . "<Ctrl+Shift+V> to type next sub-document"
-    msg:= msg . "`n" . "<Ctrl+Shift+Up> to move back to previous sub-document"
-    msg:= msg . "`n" . "<Ctrl+Shift+Down> to move forward to next sub-document"
-    msg:= msg . "`n" . "<Ctrl+Shift+Left> to reduce typing speed"
-    msg:= msg . "`n" . "<Ctrl+Shift+Right> to increase typing speed"
+    msg.= "`n" . "<Ctrl+Shift+Esc> to quit"
+    msg.= "`n" . "<Ctrl+Shift+V> to type next sub-document"
+    msg.= "`n" . "<Ctrl+Shift+Up> to move back to previous sub-document"
+    msg.= "`n" . "<Ctrl+Shift+Down> to move forward to next sub-document"
+    msg.= "`n" . "<Ctrl+Shift+Left> to reduce typing speed"
+    msg.= "`n" . "<Ctrl+Shift+Right> to increase typing speed"
     ShowMessage(msg,5)
 
     ; Activate in-script hot-keys
@@ -48,10 +52,6 @@
     Hotkey "^+Right", IncreaseSpeedHandler, "On"
     Hotkey "^+V", TypeDocHandler, "On"
     Hotkey "^+M", ToggleMessagesHandler, "On"
-
-    ; Read the clipboard and set an event up in case it changes
-    ReadClipboardHandler(1)
-    OnClipboardChange ReadClipboardHandler
 
     while not script_exitingFlag
     {
@@ -88,11 +88,11 @@
         }
         if A_Args.Length > 1
         {
-            global script_showMessages:= StrCompare(A_Args[1],"true","Off") = 0
+            global script_showMessages:= StrCompare(A_Args[1],"on","Off") = 0
         }
         if A_Args.Length > 2
         {
-            global script_playSounds:= StrCompare(A_Args[1],"true","Off") = 0
+            global script_playSounds:= StrCompare(A_Args[1],"on","Off") = 0
         }
     }
 
@@ -105,10 +105,54 @@
             global script_subDocs
             global script_pos
 
-            script_subDocs:= StrSplit(A_Clipboard,script_subDocDelimiter)
+            isFirstLineOptions:= StrCompare(SubStr(A_Clipboard, 1, 9),"{options ","Off") = 0
+            if isFirstLineOptions
+            {
+                firstLinefeed:= InStr(A_Clipboard,"`n")
+                firstLine:= SubStr(A_Clipboard, 1, firstLinefeed)
+                ProcessFirstLineOptions(firstLine)
+                script_subDocs:= StrSplit(SubStr(A_Clipboard,firstLinefeed+1),script_subDocDelimiter)
+            }
+            else
+            {
+                script_subDocs:= StrSplit(A_Clipboard,script_subDocDelimiter)
+            }
+
             script_subDocs.InsertAt(script_subDocs.Length+1, "")
             script_pos:= 1
         }
+    }
+
+    ProcessFirstLineOptions(optionsLine)
+    {
+        options:= StrSplit(Trim(SubStr(StrLower(StrReplace(optionsLine," ")),9),"} `n`r"),",")
+
+        Loop options.Length
+        {
+            keyval:= StrSplit(options[A_Index],"=")
+
+            switch keyval[1]
+            {
+                case "delimeter":
+                    global script_subDocDelimiter:= SubStr(keyval[2],1)
+
+                case "messages":
+                    global script_showMessages:= StrCompare(keyval[2],"on","Off") = 0
+
+                case "sounds":
+                    global script_playSounds:= StrCompare(keyval[2],"on","Off") = 0
+
+                default:
+                    ; ignore
+            }
+
+        }
+
+    }
+
+    ToggleMessagesHandler(key)
+    {
+        global script_showMessages:= !script_showMessages
     }
 
     ShowMessage(msg, forSeconds)
@@ -153,25 +197,45 @@
     PreviousDocHandler(key)
     {
         global script_pos:= Max(1,script_pos-1)
-        ShowMessage("Positioned at " . script_pos . " of " . script_subDocs.Length-1,1)
+        if key != ""
+        {
+            ShowMessage(CurrentDocumentSummary(),2)
+        }
     }
 
     NextDocHandler(key)
     {
         global script_pos:= Min(script_subDocs.Length,script_pos+1)
-        ShowMessage("Positioned at " . script_pos . " of " . script_subDocs.Length-1,1)
+        if key != ""
+        {
+            ShowMessage(CurrentDocumentSummary(),2)
+        }
+    }
+
+    CurrentDocumentSummary()
+    {
+        summary:= script_pos = script_subDocs.Length ? "<End>": "Sub-document " . script_pos . " of " . script_subDocs.Length-1
+        summary.= "`n`n" . SubStr(Trim(script_subDocs[script_pos]),1,128) 
+        summary.= StrLen(Trim(script_subDocs[script_pos])) > 128 ? "..." : ""
+        return summary
     }
 
     ReduceSpeedHandler(key)
     {
         global script_speed:= Max(0.01,Round(script_speed/1.25,2)+0)
-        ShowMessage("Typing speed: " . script_speed,1)
+        if key != ""
+        {
+            ShowMessage("Typing speed: " . script_speed,1)
+        }
     }
 
     IncreaseSpeedHandler(key)
     {
         global script_speed:= Min(128,Round(script_speed*1.25,2)+0)
-        ShowMessage("Typing speed: " . script_speed,1)
+        if key != ""
+        {
+            ShowMessage("Typing speed: " . script_speed,1)
+        }
     }
 
     TypeDocHandler(key)
@@ -179,13 +243,21 @@
         global script_subDocs
         global script_pos
 
-        TypeText(script_subDocs[script_pos])
-        script_pos:= Min(script_subDocs.Length,script_pos+1)
-    }
+        subDocument:= script_subDocs[script_pos]
 
-    ToggleMessagesHandler(key)
-    {
-        global script_showMessages:= !script_showMessages
+        isMacro:= StrCompare(SubStr(subDocument, 1, 7),"{macro}","Off") = 0
+
+        if isMacro
+        {
+            SendInput(SubStr(subDocument, 8))
+        }
+        else
+        {
+            TypeText(subDocument)
+        }
+
+        ; Select next sub-document, supress message if active
+        NextDocHandler("")
     }
 
     TypeText(textToType)
@@ -200,13 +272,6 @@
         len:= StrLen(textToType)
         strpos:= 1
         spaces := ""
-
-        isMacro:= StrCompare(SubStr(textToType, 1, 7),"{macro}","Off") = 0
-        if isMacro
-        {
-            SendInput(SubStr(textToType, 8))
-            return
-        }
 
         while not script_exitingFlag
         {
